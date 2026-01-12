@@ -178,20 +178,48 @@
    // --- 資料庫 (維持你的資料結構) ---
     // w=單字, s=星級, p=音標, pos=詞性, m=含義, rel=相關字, ex=例句, ch=中譯
     let db = {
-      "10": [
-        {"w":"exactly", "s":1, "p":"/ɪgˈzæktli/", "pos":"adv.", "m":"確切地；正好", "rel":"[衍] exact adj. 確切的; [同] precisely 準確地", "ex":"The sales representatives help customers decide exactly what style fits them best.", "ch":"銷售人員會幫助顧客決定究竟什麼風格是最適合他們的。"},
-        {"w":"installment", "s":1, "p":"/ɪnˈstɔlmənt/", "pos":"n.", "m":"分期付款", "rel":"", "ex":"The shop allows buyers to pay for furniture in monthly installments.", "ch":"那家店允許顧客用每月分期付款的方式購買家具。"},
-        {"w":"notice", "s":3, "p":"/ˈnoʊtɪs/", "pos":"n.", "m":"通知；公告", "rel":"[衍] notify v. 通知; notification n. 通知; noticeable adj. 顯而易見的", "ex":"The prices listed in the catalog are effective until further notice.", "ch":"在進一步通知之前，目錄中列出的價格都是有效的。"},
-        {"w":"charge", "s":3, "p":"/tʃɑrdʒ/", "pos":"n.", "m":"收費，費用；責任", "rel":"[同] expense 費用", "ex":"The price includes shipping and handling charges.", "ch":"價格包括運費與手續費。"},
-        {"w":"experienced", "s":3, "p":"/ɪkˈspɪriənst/", "pos":"adj.", "m":"有經驗的", "rel":"[衍] experience n. 經驗", "ex":"She is an experienced teacher.", "ch":"她是一位有經驗的老師。"}
-      ],
-      "24": [
-        {"w":"designate", "s":2, "p":"/ˈdɛzɪgˌneɪt/", "pos":"v.", "m":"指定；指派", "rel":"[衍] designation n. 指定; 指派", "ex":"Ms. Carling designated Owen to be the project's team leader.", "ch":"Carling 小姐指派了 Owen 擔任專案小組的組長。"},
-        {"w":"executive", "s":2, "p":"/ɪgˈzɛkjətɪv/", "pos":"adj.", "m":"經營管理的", "rel":"", "ex":"Mr. Fulton holds an executive position at Greenway Bank.", "ch":"Fulton 先生在 Greenway 銀行擔任管理職。"},
-        {"w":"dedication", "s":2, "p":"/ˌdɛdəˈkeɪʃən/", "pos":"n.", "m":"專心致力", "rel":"[衍] dedicate v. 致力於; dedicated adj. 專注的", "ex":"Ms. Hayes was recognized for her dedication to the company.", "ch":"Hayes 小姐因為對公司的奉獻而受到了表揚。"},
-        {"w":"unanimously", "s":2, "p":"/juˈnænəməsli/", "pos":"adv.", "m":"全體意見一致地", "rel":"", "ex":"The board voted unanimously to replace the CEO.", "ch":"董事會投票一致決定要撤換那位執行長。"},
-        {"w":"progress", "s":2, "p":"/ˈprɑgrɛs/", "pos":"n.", "m":"前進；進步", "rel":"[衍] progressive adj. 進步的", "ex":"Daily reports are good tools for measuring employees' work progress.", "ch":"每日報告是評量員工工作進度的好工具。"}
-      ]
+      "1": [
+    {"w":"hire", "s":3, "p":"/haɪr/", "pos":"v.", "m":"雇用", "rel":"[衍] hiring n. 雇用; [反] fire v. 解僱", "ex":"We aim to hire three new engineers.", "ch":"我們目標是雇用三位新工程師。"},
+    {"w":"recruit", "s":2, "p":"/rɪˈkrut/", "pos":"v.", "m":"招募", "rel":"[衍] recruitment n. 招募; recruiter n. 招聘人員", "ex":"The firm recruits from top universities.", "ch":"這間公司從頂尖大學招募人才。"},
+    {"w":"employ", "s":3, "p":"/ɪmˈplɔɪ/", "pos":"v.", "m":"雇用", "rel":"[衍] employer n. 雇主; employee n. 員工", "ex":"The factory employs 500 workers.", "ch":"這間工廠雇用了500名工人。"},
+    {"w":"candidate", "s":3, "p":"/ˈkændɪˌdeɪt/", "pos":"n.", "m":"應徵者；候選人", "rel":"[同] applicant n. 申請人", "ex":"He is the strongest candidate so far.", "ch":"他是目前為止最強的候選人。"},
+    {"w":"applicant", "s":3, "p":"/ˈæplɪkənt/", "pos":"n.", "m":"申請人", "rel":"[衍] apply v. 申請", "ex":"Applicants must be over 18.", "ch":"申請人必須年滿18歲。"},
+    {"w":"resume", "s":3, "p":"/rɪˈzum/", "pos":"n.", "m":"履歷表", "rel":"[同] CV (curriculum vitae) n. 簡歷", "ex":"Please email your resume to HR.", "ch":"請將你的履歷表寄給人資。"},
+    {"w":"interview", "s":3, "p":"/ˈɪntərˌvju/", "pos":"n.", "m":"面試", "rel":"[衍] interviewer n. 面試官", "ex":"My job interview is at 10 AM.", "ch":"我的工作面試在早上10點。"},
+    {"w":"position", "s":3, "p":"/pəˈzɪʃən/", "pos":"n.", "m":"職位", "rel":"[同] post, job", "ex":"The position has been filled.", "ch":"該職位已有人選。"},
+    {"w":"opening", "s":2, "p":"/ˈoʊpənɪŋ/", "pos":"n.", "m":"職缺；空缺", "rel":"[同] vacancy n. 空缺", "ex":"There are several openings in sales.", "ch":"業務部有幾個職缺。"},
+    {"w":"vacancy", "s":2, "p":"/ˈveɪkənsi/", "pos":"n.", "m":"空缺；空房", "rel":"[衍] vacant adj. 空的", "ex":"We have a vacancy for a manager.", "ch":"我們有一個經理的職缺。"},
+    {"w":"qualify", "s":2, "p":"/ˈkwɑləˌfaɪ/", "pos":"v.", "m":"符合資格", "rel":"[衍] qualified adj. 合格的; qualification n. 資格", "ex":"He strictly qualifies for the job.", "ch":"他完全符合這份工作的資格。"},
+    {"w":"recommend", "s":3, "p":"/ˌrɛkəˈmɛnd/", "pos":"v.", "m":"推薦", "rel":"[衍] recommendation n. 推薦信", "ex":"Can you recommend a good lawyer?", "ch":"你能推薦一位好律師嗎？"},
+    {"w":"reference", "s":2, "p":"/ˈrɛfərəns/", "pos":"n.", "m":"推薦人；參考", "rel":"[片] reference letter 推薦信", "ex":"Please provide three references.", "ch":"請提供三位推薦人。"},
+    {"w":"human resources", "s":3, "p":"/ˌhjumən ˈrisɔrsɪz/", "pos":"n.", "m":"人力資源(部)", "rel":"[縮] HR", "ex":"Contact Human Resources for details.", "ch":"詳情請聯繫人力資源部。"},
+    {"w":"staff", "s":3, "p":"/stæf/", "pos":"n.", "m":"全體員工", "rel":"[同] personnel n. 人員", "ex":"We have a staff of 50 people.", "ch":"我們有50名員工。"},
+    {"w":"personnel", "s":2, "p":"/ˌpɜrsəˈnɛl/", "pos":"n.", "m":"人員；人事部門", "rel":"[同] staff n. 員工", "ex":"All personnel must sign in.", "ch":"所有人員都必須簽到。"},
+    {"w":"career", "s":3, "p":"/kəˈrɪr/", "pos":"n.", "m":"職涯；事業", "rel":"[片] pursue a career 追求事業", "ex":"She wants a career in fashion.", "ch":"她想要從事時尚業。"},
+    {"w":"occupation", "s":2, "p":"/ˌɑkjəˈpeɪʃən/", "pos":"n.", "m":"職業", "rel":"[同] job, profession", "ex":"State your name and occupation.", "ch":"說明你的姓名和職業。"},
+    {"w":"profession", "s":2, "p":"/prəˈfɛʃən/", "pos":"n.", "m":"(專業)職業", "rel":"[衍] professional adj. 專業的", "ex":"Teaching is a noble profession.", "ch":"教書是高尚的職業。"},
+    {"w":"unemployment", "s":2, "p":"/ˌʌnɪmˈplɔɪmənt/", "pos":"n.", "m":"失業", "rel":"[衍] unemployed adj. 失業的", "ex":"Unemployment is rising.", "ch":"失業率正在上升。"},
+    {"w":"layoff", "s":2, "p":"/ˈleɪˌɔf/", "pos":"n.", "m":"解僱；裁員", "rel":"[衍] lay off v. 裁員", "ex":"The company announced huge layoffs.", "ch":"公司宣布大規模裁員。"},
+    {"w":"temporary", "s":2, "p":"/ˈtɛmpəˌrɛri/", "pos":"adj.", "m":"暫時的；臨時的", "rel":"[反] permanent adj. 永久的", "ex":"It's just a temporary job.", "ch":"這只是份臨時工作。"},
+    {"w":"short-term", "s":2, "p":"/ʃɔrt tɜrm/", "pos":"adj.", "m":"短期的", "rel":"[反] long-term 長期的", "ex":"They hired him on a short-term contract.", "ch":"他們簽短期合約雇用他。"},
+    {"w":"expert", "s":2, "p":"/ˈɛkspɜrt/", "pos":"n.", "m":"專家", "rel":"[衍] expertise n. 專業知識", "ex":"He is an expert in IT.", "ch":"他是IT方面的專家。"},
+    {"w":"ability", "s":3, "p":"/əˈbɪləti/", "pos":"n.", "m":"能力", "rel":"[同] capability n. 能力", "ex":"She has the ability to manage.", "ch":"她有管理的能力。"},
+    {"w":"skill", "s":3, "p":"/skɪl/", "pos":"n.", "m":"技能", "rel":"[衍] skilled adj. 熟練的", "ex":"Computer skills are essential.", "ch":"電腦技能是必要的。"},
+    {"w":"training", "s":3, "p":"/ˈtreɪnɪŋ/", "pos":"n.", "m":"訓練", "rel":"[衍] train v. 訓練", "ex":"The training lasts three days.", "ch":"訓練持續三天。"},
+    {"w":"background", "s":3, "p":"/ˈbækˌgraʊnd/", "pos":"n.", "m":"背景；經歷", "rel":"[片] educational background 學歷", "ex":"He has a background in science.", "ch":"他有科學背景。"},
+    {"w":"degree", "s":2, "p":"/dɪˈgri/", "pos":"n.", "m":"學位", "rel":"[片] master's degree 碩士學位", "ex":"She has a degree in law.", "ch":"她有法律學位。"},
+    {"w":"certificate", "s":2, "p":"/sərˈtɪfɪkət/", "pos":"n.", "m":"證書；執照", "rel":"[衍] certification n. 認證", "ex":"Do you have a teaching certificate?", "ch":"你有教師證嗎？"},
+    {"w":"submit", "s":3, "p":"/səbˈmɪt/", "pos":"v.", "m":"提交", "rel":"[衍] submission n. 提交", "ex":"Submit your report by 5 PM.", "ch":"請在下午5點前提交報告。"},
+    {"w":"application", "s":3, "p":"/ˌæpləˈkeɪʃən/", "pos":"n.", "m":"申請書；應用", "rel":"[片] fill out an application 填寫申請表", "ex":"The application deadline is Monday.", "ch":"申請截止日期是週一。"},
+    {"w":"requirement", "s":2, "p":"/rɪˈkwaɪrmənt/", "pos":"n.", "m":"必要條件", "rel":"[衍] require v. 需要", "ex":"Experience is a key requirement.", "ch":"經驗是關鍵要求。"},
+    {"w":"eligible", "s":1, "p":"/ˈɛlɪdʒəbəl/", "pos":"adj.", "m":"有資格的", "rel":"[衍] eligibility n. 資格", "ex":"You are eligible for a bonus.", "ch":"你有資格獲得獎金。"},
+    {"w":"proficiency", "s":1, "p":"/prəˈfɪʃənsi/", "pos":"n.", "m":"熟練；精通", "rel":"[衍] proficient adj. 精通的", "ex":"The job requires high proficiency in English.", "ch":"這份工作要求高度的英語熟練度。"},
+    {"w":"cover letter", "s":2, "p":"/ˈkʌvər ˌlɛtər/", "pos":"n.", "m":"求職信", "rel":"[片] attach a cover letter 附上求職信", "ex":"Attach a cover letter to your resume.", "ch":"在履歷上附上一封求職信。"},
+    {"w":"manager", "s":3, "p":"/ˈmænədʒər/", "pos":"n.", "m":"經理", "rel":"[衍] manage v. 管理", "ex":"The manager will interview you.", "ch":"經理會面試你。"},
+    {"w":"achievement", "s":2, "p":"/əˈtʃivmənt/", "pos":"n.", "m":"成就", "rel":"[衍] achieve v. 達成", "ex":"List your achievements on the resume.", "ch":"在履歷上列出你的成就。"},
+    {"w":"experience", "s":3, "p":"/ɪkˈspɪriəns/", "pos":"n.", "m":"經驗", "rel":"[衍] experienced adj. 有經驗的", "ex":"She has 5 years of experience.", "ch":"她有5年的經驗。"},
+    {"w":"full-time", "s":3, "p":"/ˌfʊl ˈtaɪm/", "pos":"adj.", "m":"全職的", "rel":"[反] part-time 兼職的", "ex":"It is a full-time position.", "ch":"這是一份全職工作。"}
+  ]
     };
 
     // 可以在這裡定義主題名稱，若無定義則顯示 Day X
@@ -558,4 +586,5 @@
 </script>
 
 </body>
+
 </html>
