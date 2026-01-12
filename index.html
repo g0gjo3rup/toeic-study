@@ -79,10 +79,16 @@
         const d = document.getElementById('daySelector').value;
         const list = document.getElementById('wordList');
         list.innerHTML = ""; 
-        if(!db[d]) return;
+        
+        if(!db[d]) {
+            list.innerHTML = '<li style="text-align:center;padding:20px;">尚無單字資料</li>';
+            return;
+        }
+
         db[d].forEach((item, index) => {
             const li = document.createElement('li');
             li.className = "word-item";
+            // 修正：確保 index + 1 正確顯示編號，並加入音標 item.p
             li.innerHTML = `
                 <div class="word-header">
                     <span class="index-num">${index + 1}.</span>
