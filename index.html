@@ -13,7 +13,7 @@
             --mobile-btn: #e84393;
         }
         body { font-family: "Segoe UI", "Microsoft JhengHei", sans-serif; background: var(--bg); color: var(--text); padding: 20px; line-height: 1.6; margin: 0; }
-        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 30px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
+        .container { max-width: 30px; margin: 0 auto; background: var(--card-bg); padding: 10px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
         h1 { color: var(--primary); text-align: center; border-bottom: 3px solid var(--accent); padding-bottom: 15px; margin-bottom: 25px; font-size: 1.8em; }
         
         /* 頁籤 */
@@ -26,7 +26,7 @@
         .phnetic {
             color:#7f8c8d;
             font-family: Arial;
-            font-sine: 1em;
+            font-size: 1em;
             margin: 0 8px;
         }
         /* 控制區 */
@@ -812,36 +812,37 @@
     }
 
     function renderWords() {
-    const d = document.getElementById('daySelector').value;
-    const list = document.getElementById('wordList');
-    list.innerHTML = ""; 
-    
-    if(!db[d]) {
-        list.innerHTML = '<li style="text-align:center;padding:20px;">尚無單字資料</li>';
-        return;
-    }
+        const d = document.getElementById('daySelector').value;
+        const list = document.getElementById('wordList');
+        list.innerHTML = ""; 
+        
+        if(!db[d]) {
+            list.innerHTML = '<li style="text-align:center;padding:20px;">尚無單字資料</li>';
+            return;
+        }
 
-    db[d].forEach((item, index) => {
-        const li = document.createElement('li');
-        li.className = "word-item";
-        li.innerHTML = `
-            <div class="word-header">
-                <span class="index-num">${index + 1}.</span>
-                <span class="en-word">${item.w}</span>
-                <button class="btn-audio" onclick="playAudio('${item.w}')">🔊</button>
-                <span class="phnetic" style="color:#7f8c8d; font-family: Arial; font-size: 1em; margin: 0 8px;">${item.p || ""}</span>
-                <span class="pos-tag">${item.pos}</span>
-                <span class="stars">${"★".repeat(item.s || 1)}</span>
-                <span class="ch-meaning">${item.m}</span>
-            </div>
-            ${item.rel ? `<div class="word-rel">${item.rel}</div>` : ""}
-            <div class="sentence-box">
-                <span class="en-sent">${item.ex}</span>
-                <span style="color:#666; font-size:0.9em;">${item.ch}</span>
-            </div>`;
-        list.appendChild(li);
-    });
-}
+        db[d].forEach((item, index) => {
+            const li = document.createElement('li');
+            li.className = "word-item";
+            // 修正：將原本錯誤的 i 改為 index，並確保音標樣式正確嵌入
+            li.innerHTML = `
+                <div class="word-header">
+                    <span class="index-num">${index + 1}.</span>
+                    <span class="en-word">${item.w}</span>
+                    <button class="btn-audio" onclick="playAudio('${item.w}')">🔊</button>
+                    <span class="phnetic" style="color:#7f8c8d; font-family: Arial; font-size: 1em; margin: 0 8px;">${item.p || ""}</span>
+                    <span class="pos-tag">${item.pos}</span>
+                    <span class="stars">${"★".repeat(item.s || 1)}</span>
+                    <span class="ch-meaning">${item.m}</span>
+                </div>
+                ${item.rel ? `<div class="word-rel">${item.rel}</div>` : ""}
+                <div class="sentence-box">
+                    <span class="en-sent">${item.ex}</span>
+                    <span style="color:#666; font-size:0.9em;">${item.ch}</span>
+                </div>`;
+            list.appendChild(li);
+        });
+    }
 
     // --- ★ 手機打包下載功能 ★ ---
     function exportToMobile() {
