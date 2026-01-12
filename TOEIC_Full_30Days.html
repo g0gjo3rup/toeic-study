@@ -812,32 +812,36 @@
     }
 
     function renderWords() {
-        const day = daySelector.value;
-        wordList.innerHTML = "";
-        if (!db[day]) { wordList.innerHTML = `<li style="padding:20px;">無資料</li>`; return; }
-
-        db[day].forEach((item, index) => {
-            const li = document.createElement('li');
-            li.className = 'word-item';
-            let relHtml = item.rel ? `<div class="word-rel">${item.rel}</div>` : "";
-            li.innerHTML = `
-              <div class="word-header">
-        <span class="index-num">${i + 1}.</span>
-        <span class="en-word">${item.w}</span>
-        <button class="btn-audio" onclick="playAudio('${item.w}')">🔊</button>
-        <span class="phonetic" style="color: #7f8c8d; font-family: Arial; font-size: 0.95em; margin: 0 5px;">${item.p || ""}</span>
-        <span class="pos-tag">${item.pos}</span>
-        <span class="stars">${"★".repeat(item.s || 1)}</span>
-        <span class="ch-meaning">${item.m}</span>
-    </div>
-    ${item.rel ? `<div class="word-rel">${item.rel}</div>` : ""}
-    <div class="sentence-box">
-        <div class="en-sent">${item.ex}</div>
-        <div class="ch-sent" style="color: #666; font-size: 0.9em;">${item.ch}</div>
-    </div>`;
-            wordList.appendChild(li);
-        });
+    const d = document.getElementById('daySelector').value;
+    const list = document.getElementById('wordList');
+    list.innerHTML = ""; 
+    
+    if(!db[d]) {
+        list.innerHTML = '<li style="text-align:center;padding:20px;">尚無單字資料</li>';
+        return;
     }
+
+    db[d].forEach((item, index) => {
+        const li = document.createElement('li');
+        li.className = "word-item";
+        li.innerHTML = `
+            <div class="word-header">
+                <span class="index-num">${index + 1}.</span>
+                <span class="en-word">${item.w}</span>
+                <button class="btn-audio" onclick="playAudio('${item.w}')">🔊</button>
+                <span class="phnetic" style="color:#7f8c8d; font-family: Arial; font-size: 1em; margin: 0 8px;">${item.p || ""}</span>
+                <span class="pos-tag">${item.pos}</span>
+                <span class="stars">${"★".repeat(item.s || 1)}</span>
+                <span class="ch-meaning">${item.m}</span>
+            </div>
+            ${item.rel ? `<div class="word-rel">${item.rel}</div>` : ""}
+            <div class="sentence-box">
+                <span class="en-sent">${item.ex}</span>
+                <span style="color:#666; font-size:0.9em;">${item.ch}</span>
+            </div>`;
+        list.appendChild(li);
+    });
+}
 
     // --- ★ 手機打包下載功能 ★ ---
     function exportToMobile() {
