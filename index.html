@@ -18,6 +18,7 @@
         select { padding: 12px; font-size: 16px; border-radius: 6px; border: 1px solid #ccc; width: 100%; background: white; }
         button { padding: 12px; border-radius: 6px; border: none; cursor: pointer; font-size: 15px; font-weight: bold; color: white; background: var(--primary); }
         .btn-accent { background: var(--accent); }
+        .btn-import { background: #3498db; } /* 匯入按鈕藍色 */
         .word-list { list-style: none; padding: 0; }
         .word-item { padding: 15px 0; border-bottom: 1px solid #eee; }
         .word-header { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
@@ -32,11 +33,11 @@
         .quiz-card { background: #fff; padding: 20px; margin-bottom: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 1px solid #eee; position: relative; }
         .quiz-tag { position: absolute; top: 0; right: 0; background: var(--primary); color: white; padding: 3px 12px; font-size: 0.8em; border-bottom-left-radius: 8px; }
         .quiz-options { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 15px; }
-        .option-btn { background: white; border: 2px solid #e0e0e0; padding: 14px; cursor: pointer; border-radius: 8px; text-align: left; transition: 0.2s; }
+        .option-btn { background: white; border: 2px solid #e0e0e0; padding: 14px; cursor: pointer; border-radius: 8px; text-align: left; }
         .option-btn.selected { background: var(--primary); color: white; border-color: var(--primary); }
-        #importModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; z-index: 1000; }
+        #importModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; z-index: 1000; }
         .modal-content { background: white; padding: 25px; width: 85%; max-width: 500px; border-radius: 12px; }
-        textarea { width: 100%; height: 180px; margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        textarea { width: 100%; height: 200px; margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
         @media (max-width: 600px) { .container { padding: 15px; } .en-word { font-size: 1.3em; } }
     </style>
 </head>
@@ -44,34 +45,46 @@
 <div class="container">
     <h1>TOEIC 30天實戰特訓 PRO</h1>
     <div class="tabs">
-        <div class="tab active" onclick="switchTab('study')">📖 學習</div>
-        <div class="tab" onclick="switchTab('quiz')">⚔️ 測驗</div>
+        <div class="tab active" onclick="switchTab('study')">📖 學習模式</div>
+        <div class="tab" onclick="switchTab('quiz')">⚔️ 測驗模式</div>
     </div>
     <div id="studySection" class="view-section active">
         <div class="controls">
+            <label style="font-size:0.8em; color:#666;">選擇天數進度：</label>
             <select id="daySelector" onchange="renderWords()"></select>
-            <button onclick="openImport()">+ 匯入資料 (Import)</button>
+            <button class="btn-import" onclick="openImport()">+ 匯入單字資料 (JSON)</button>
         </div>
         <ul class="word-list" id="wordList"></ul>
     </div>
     <div id="quizSection" class="view-section">
         <div id="quizStartScreen" class="controls">
+            <label style="font-size:0.8em; color:#666;">選擇測驗範圍：</label>
             <select id="quizScopeSelector"></select>
             <button class="btn-accent" onclick="startQuiz()">開始測驗</button>
         </div>
         <div id="quizArea" style="display:none;"></div>
-        <div id="quizControls" style="display:none; text-align:center; margin-top:15px;"><button class="btn-accent" style="width:80%;" onclick="submitQuiz()">提交答案</button></div>
+        <div id="quizControls" style="display:none; text-align:center; margin-top:15px;"><button class="btn-accent" style="width:100%;" onclick="submitQuiz()">提交答案 (Submit)</button></div>
         <div id="quizResult" style="display:none;">
             <div style="display:flex; gap:10px; margin-bottom:15px; text-align:center;">
                 <div style="flex:1; background:#fff; border:1px solid #ddd; padding:15px; border-radius:8px;">分數<br><b id="scoreBoard" style="font-size:1.8em; color:var(--accent);">0</b></div>
                 <div style="flex:1; background:#fff; border:1px solid #ddd; padding:15px; border-radius:8px;">答對題數<br><b id="correctCount" style="font-size:1.8em; color:var(--primary);">0/0</b></div>
             </div>
             <div id="resultList"></div>
-            <button onclick="resetQuiz()" style="width:100%; background:var(--primary); padding:15px;">重新開始</button>
+            <button onclick="resetQuiz()" style="width:100%; background:var(--primary); padding:15px; border:none; border-radius:8px; color:white;">重新開始</button>
         </div>
     </div>
 </div>
-<div id="importModal"><div class="modal-content"><h3>匯入 JSON</h3><textarea id="importInput" placeholder='貼上資料...'></textarea><div style="text-align:right; display:flex; gap:10px; justify-content:flex-end;"><button style="background:#eee;color:#333;" onclick="closeImport()">取消</button><button class="btn-accent" onclick="saveImport()">確認匯入</button></div></div></div>
+
+<div id="importModal">
+    <div class="modal-content">
+        <h3>匯入 JSON 資料</h3>
+        <textarea id="importInput" placeholder="在此貼上之前生成的 JSON 代碼..."></textarea>
+        <div style="text-align:right; display:flex; gap:10px; justify-content:flex-end;">
+            <button style="background:#eee;color:#333;padding:10px 20px;border-radius:6px;border:none;" onclick="closeImport()">取消</button>
+            <button class="btn-accent" style="padding:10px 20px;" onclick="saveImport()">確認匯入</button>
+        </div>
+    </div>
+</div>
 
 <script>
     let db = {};
@@ -79,13 +92,11 @@
 
     function init() {
         const saved = localStorage.getItem('toeicProV3');
-        if(saved) {
-            try { db = JSON.parse(saved); } catch(e){ db = {}; }
-        }
+        if(saved) { try { db = JSON.parse(saved); } catch(e){ db = {}; } }
         updateMenus();
         const days = Object.keys(db).map(Number).sort((a,b)=>a-b);
         if(days.length > 0) renderWords();
-        else document.getElementById('wordList').innerHTML = '<li style="text-align:center;padding:40px;color:#999;">尚未匯入單字，請點擊上方「匯入資料」</li>';
+        else document.getElementById('wordList').innerHTML = '<li style="text-align:center;padding:40px;color:#999;">尚未匯入單字，請點擊「匯入單字資料」</li>';
     }
 
     function updateMenus() {
@@ -97,20 +108,16 @@
             daySel.add(new Option(themes[d]||`Day ${d}`, d));
             quizSel.add(new Option(`測驗 Day ${d}`, d));
         });
-        for(let i=1; i<=26; i+=5) {
-            if(days.some(d => d>=i && d<=i+4)) quizSel.add(new Option(`複習 Day ${i}-${i+4}`, `${i}-${i+4}`));
-        }
+        for(let i=1; i<=26; i+=5) { if(days.some(d => d>=i && d<=i+4)) quizSel.add(new Option(`複習 Day ${i}-${i+4}`, `${i}-${i+4}`)); }
         if(days.length > 0) quizSel.add(new Option("全範圍總複習", "all"));
     }
 
     function renderWords() {
         const d = document.getElementById('daySelector').value;
         const list = document.getElementById('wordList');
-        list.innerHTML = "";
-        if(!db[d]) return;
+        list.innerHTML = ""; if(!db[d]) return;
         db[d].forEach((item) => {
-            const li = document.createElement('li');
-            li.className = "word-item";
+            const li = document.createElement('li'); li.className = "word-item";
             li.innerHTML = `
                 <div class="word-header">
                     <span class="en-word">${item.w}</span>
@@ -140,8 +147,8 @@
         if(s==='all') Object.values(db).forEach(v=>pool=pool.concat(v));
         else if(s.includes('-')){ const [st,en]=s.split('-').map(Number); for(let i=st;i<=en;i++) if(db[i]) pool=pool.concat(db[i]); }
         else pool = db[s] || [];
-        if(pool.length < 4) return alert("單字量不足");
-        curQ = shuffle(pool).slice(0, 15).map(t => {
+        if(pool.length < 4) return alert("單字量不足以出題");
+        curQ = shuffle([...pool]).slice(0, 15).map(t => {
             const m = Math.random()>0.5?'s':'m';
             const dis = shuffle(pool.filter(w=>w.w!==t.w)).slice(0,3).map(d=>d.w);
             const qTxt = m==='s' ? t.ex.replace(new RegExp(t.w+"(ing|ed|s|ly)?","gi"), "____") : `「${t.m}」的意思是？`;
@@ -159,10 +166,11 @@
     }
 
     function submitQuiz() {
+        if(Object.keys(userAns).length < curQ.length && !confirm("尚未做完，確定提交？")) return;
         let sc = 0; let html = "";
         curQ.forEach((q, i) => {
             const isC = userAns[i] === q.c; if(isC) sc++;
-            html += `<div class="result-item ${isC?'correct':'wrong'}">Q${i+1}. ${q.q}<br>你的答案: ${userAns[i]||"未答"} | 正解: <b>${q.c}</b><br><small>${q.data.m}</small></div>`;
+            html += `<div class="result-item ${isC?'correct':'wrong'}"><b>Q${i+1}.</b> ${q.q}<br>你的答案: ${userAns[i]||"未答"} | 正解: <b>${q.c}</b><br><small>${q.data.m}</small></div>`;
         });
         document.getElementById('scoreBoard').innerText = Math.round(sc/curQ.length*100);
         document.getElementById('correctCount').innerText = `${sc}/${curQ.length}`;
@@ -174,7 +182,7 @@
     function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
     function openImport(){ document.getElementById('importModal').style.display='flex'; }
     function closeImport(){ document.getElementById('importModal').style.display='none'; }
-    function saveImport(){ try { const d = JSON.parse(document.getElementById('importInput').value); db = {...db, ...d}; localStorage.setItem('toeicProV3', JSON.stringify(db)); updateMenus(); closeImport(); renderWords(); alert("匯入成功！"); } catch(e){ alert("格式錯誤"); } }
+    function saveImport(){ try { const val = document.getElementById('importInput').value; if(!val) return; const d = JSON.parse(val); db = {...db, ...d}; localStorage.setItem('toeicProV3', JSON.stringify(db)); updateMenus(); closeImport(); renderWords(); alert("匯入成功！資料已儲存於手機快取。"); } catch(e){ alert("格式錯誤，請檢查 JSON 代碼"); } }
     init();
 </script>
 </body>
