@@ -811,34 +811,42 @@
         return `<span class="stars">${starStr}</span>`;
     }
 
-    function renderWords() {
+   function renderWords() {
         const day = daySelector.value;
         wordList.innerHTML = "";
-        if (!db[day]) { wordList.innerHTML = `<li style="padding:20px;">無資料</li>`; return; }
+        
+        // 1. 檢查資料庫是否有這一天
+        if (!db[day] || db[day].length === 0) { 
+            wordList.innerHTML = `<li style="padding:20px; text-align:center; color:#999;">尚未匯入單字資料</li>`; 
+            return; 
+        }
 
+        // 2. 開始渲染單字列表 (已修正變數錯誤)
         db[day].forEach((item, index) => {
             const li = document.createElement('li');
             li.className = 'word-item';
-            let relHtml = item.rel ? `<div class="word-rel">${item.rel}</div>` : "";
+            
+            // 處理星星顯示
+            const starStr = "★".repeat(item.s || 1);
+            
             li.innerHTML = `
-              <div class="word-header">
-        <span class="index-num">${i + 1}.</span>
-        <span class="en-word">${item.w}</span>
-        <button class="btn-audio" onclick="playAudio('${item.w}')">🔊</button>
-        <span class="phonetic" style="color: #7f8c8d; font-family: Arial; font-size: 0.95em; margin: 0 5px;">${item.p || ""}</span>
-        <span class="pos-tag">${item.pos}</span>
-        <span class="stars">${"★".repeat(item.s || 1)}</span>
-        <span class="ch-meaning">${item.m}</span>
-    </div>
-    ${item.rel ? `<div class="word-rel">${item.rel}</div>` : ""}
-    <div class="sentence-box">
-        <div class="en-sent">${item.ex}</div>
-        <div class="ch-sent" style="color: #666; font-size: 0.9em;">${item.ch}</div>
-    </div>`;
+                <div class="word-header">
+                    <span class="index-num">${index + 1}.</span>
+                    <span class="en-word">${item.w}</span>
+                    <button class="btn-audio" onclick="playAudio('${item.w}')">🔊</button>
+                    <span class="phnetic">${item.p || ""}</span>
+                    <span class="pos-tag">${item.pos}</span>
+                    <span class="stars">${starStr}</span>
+                    <span class="ch-meaning">${item.m}</span>
+                </div>
+                ${item.rel ? `<div class="word-rel">${item.rel}</div>` : ""}
+                <div class="sentence-box">
+                    <span class="en-sent">${item.ex}</span>
+                    <span style="font-size:0.9em; color:#888;">${item.ch}</span>
+                </div>`;
             wordList.appendChild(li);
         });
     }
-
     // --- ★ 手機打包下載功能 ★ ---
     function exportToMobile() {
         if(!confirm("這會把你目前匯入的所有資料，打包成一個獨立的 HTML 檔案。\\n下載後請將該檔案傳到手機使用。\\n確定要下載嗎？")) return;
