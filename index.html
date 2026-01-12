@@ -5,54 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TOEIC 30天實戰特訓 (含測驗功能)</title>
     <style>
-        :root {
-            --primary: #2c3e50;
-            --accent: #27ae60;
-            --wrong: #e74c3c;
-            --bg: #fdfbf7;
-            --text: #333;
-            --note-bg: #fff8e1;
-            --note-border: #fae588;
-        }
-        body { font-family: "Microsoft JhengHei", "Heiti TC", sans-serif; background: var(--bg); color: var(--text); padding: 0px; line-height: 1.6; }
-        .container { max-width: 100%; margin: 0 auto; background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        h1 { color: var(--primary); text-align: center; border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px; }
-        
-        .tabs { display: flex; border-bottom: 2px solid #ddd; margin-bottom: 30px; }
-        .tab { padding: 12px 30px; cursor: pointer; font-weight: bold; color: #7f8c8d; border-bottom: 3px solid transparent; transition: 0.3s; }
-        .tab.active { color: var(--primary); border-bottom-color: var(--primary); }
-        .view-section { display: none; }
-        .view-section.active { display: block; }
+    :root {
+        --primary: #2c3e50;
+        --accent: #27ae60;
+        --wrong: #e74c3c;
+        --bg: #fdfbf7;
+        --text: #333;
+        --note-bg: #fff8e1;
+        --note-border: #fae588;
+    }
+    /* 核心修改：body 取消邊距，讓內容貼齊手機邊緣 */
+    body { font-family: "Microsoft JhengHei", sans-serif; background: var(--bg); color: var(--text); padding: 0; line-height: 1.5; margin: 0; }
+    
+    /* 核心修改：容器寬度 100% 滿版，消除左右兩側空白 */
+    .container { width: 100%; max-width: 100%; margin: 0; background: #fff; padding: 15px; box-sizing: border-box; border-radius: 0; box-shadow: none; }
+    
+    h1 { color: var(--primary); text-align: center; border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin: 10px 0 20px 0; font-size: 1.4em; }
+    .tabs { display: flex; border-bottom: 2px solid #ddd; margin-bottom: 20px; }
+    .tab { flex: 1; text-align: center; padding: 12px 0; cursor: pointer; font-weight: bold; color: #7f8c8d; border-bottom: 3px solid transparent; }
+    .tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .view-section { display: none; }
+    .view-section.active { display: block; }
 
-        .controls { display: flex; gap: 15px; align-items: center; margin-bottom: 30px; flex-wrap: wrap; background: #f9f9f9; padding: 20px; border-radius: 8px; }
-        select { padding: 10px 15px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; cursor: pointer; min-width: 200px; }
-        button { padding: 10px 25px; border-radius: 4px; border: none; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.2s; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-accent { background: var(--accent); color: white; }
-        
-        .word-list { list-style: none; padding: 0; }
-        .word-item { padding: 25px; border-bottom: 1px solid #eee; position: relative; }
-        .word-header { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
-        .en-word { font-size: 1.6em; font-weight: bold; color: var(--primary); }
-        .phonetic { color: #7f8c8d; font-family: Arial; font-size: 1.1em; } /* 新加音標樣式 */
-        .pos-tag { color: #95a5a6; font-style: italic; font-weight: bold; }
-        .ch-meaning { font-size: 1.2em; color: #c0392b; font-weight: bold; }
-        .stars { color: #f1c40f; letter-spacing: 2px; }
-        .btn-audio { background: none; border: 1px solid #ddd; border-radius: 50%; cursor: pointer; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; }
+    /* 控制區調整為滿版按鈕 */
+    .controls { display: flex; gap: 10px; flex-direction: column; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #eee; }
+    select, button { padding: 12px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; width: 100%; box-sizing: border-box; }
+    .btn-primary { background: var(--primary); color: white; border: none; font-weight: bold; }
+    .btn-accent { background: var(--accent); color: white; border: none; font-weight: bold; }
+    
+    .word-list { list-style: none; padding: 0; margin: 0; }
+    .word-item { padding: 20px 0; border-bottom: 1px solid #eee; width: 100%; }
+    
+    /* 單字排版：加大英文，緊湊排列 */
+    .word-header { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+    .en-word { font-size: 1.7em; font-weight: bold; color: var(--primary); }
+    .phonetic { color: #7f8c8d; font-family: Arial; font-size: 1em; }
+    .pos-tag { color: #95a5a6; font-style: italic; font-weight: bold; font-size: 0.9em; }
+    .ch-meaning { font-size: 1.3em; color: #c0392b; font-weight: bold; }
+    .stars { color: #f1c40f; font-size: 1em; margin-right: 5px; }
+    .btn-audio { background: #f0f2f5; border: 1px solid #ddd; border-radius: 50%; cursor: pointer; width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; }
 
-        .word-rel { background: #f0f2f5; padding: 8px 15px; border-radius: 4px; font-size: 0.9em; color: #666; margin-bottom: 10px; border-left: 4px solid #bdc3c7; }
-        .sentence-box { background: var(--note-bg); border: 1px solid var(--note-border); padding: 15px; border-radius: 6px; }
-        
-        .quiz-card { background: #fff; padding: 30px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #eee; }
-        .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .option-btn { padding: 15px; border: 2px solid #ddd; border-radius: 6px; cursor: pointer; text-align: left; }
-        .option-btn.selected { background: var(--primary); color: white; border-color: var(--primary); }
-        #importModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 100; }
-        .modal-content { background: #fff; padding: 30px; border-radius: 8px; width: 90%; max-width: 500px; }
-        textarea { width: 100%; height: 200px; margin: 15px 0; padding: 10px; box-sizing: border-box; }
-        
-        @media (max-width: 600px) { .quiz-options { grid-template-columns: 1fr; } .controls { flex-direction: column; align-items: stretch; } }
-    </style>
+    /* 延伸內容：強制 100% 滿版寬度 */
+    .word-rel { background: #f0f2f5; padding: 10px; border-radius: 4px; font-size: 0.95em; color: #555; margin: 10px 0; border-left: 5px solid #bdc3c7; width: 100%; box-sizing: border-box; }
+    .sentence-box { background: var(--note-bg); border: 1px solid var(--note-border); padding: 12px; border-radius: 6px; width: 100%; box-sizing: border-box; }
+    .en-sent { display: block; font-weight: 500; color: #333; margin-bottom: 5px; font-size: 1.05em; }
+    
+    /* 測驗區卡片滿版 */
+    .quiz-card { background: #fff; padding: 20px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #eee; width: 100%; box-sizing: border-box; }
+    .quiz-options { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 15px; }
+    .option-btn { padding: 15px; border: 2px solid #ddd; border-radius: 6px; cursor: pointer; text-align: left; width: 100%; box-sizing: border-box; }
+    .option-btn.selected { background: var(--primary); color: white; }
+
+    #importModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 100; }
+    .modal-content { background: #fff; padding: 20px; border-radius: 8px; width: 90%; }
+    textarea { width: 100%; height: 200px; margin: 15px 0; padding: 10px; box-sizing: border-box; }
+</style>
+
 </head>
 <body>
 <div class="container">
