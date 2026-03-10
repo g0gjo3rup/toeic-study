@@ -798,11 +798,23 @@
         }
     }
 
-    function playAudio(text) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US'; utterance.rate = 0.8;
-        window.speechSynthesis.speak(utterance);
+    // 1. 在 <script> 區塊最上方（或是 playAudio 函式外面）新增這個全域變數
+let currentUtterance = null;
+
+// 2. 將原本的 playAudio 替換成這個終極穩定版：
+function playAudio(text) {
+    // 先取消任何正在播放的語音
+    window.speechSynthesis.cancel();
+
+    // 延遲 50 毫秒再發音，完美避開瀏覽器 cancel() 和 speak() 打架的 Bug
+    setTimeout(() => {
+        // 必須存入全域變數，避免唸到一半斷掉
+        currentUtterance = new SpeechSynthesisUtterance(text);
+        currentUtterance.lang = 'en-US'; 
+        currentUtterance.rate = 0.8; // 0.8 是稍微放慢的語速，可自行調整
+        window.speechSynthesis.speak(currentUtterance);
+    }, 50);
+}
     }
 
     function getStars(level) {
